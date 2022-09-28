@@ -31,7 +31,6 @@ function scoresAverage(moviesArray) {
     }, 0);
 
     average = (average/ moviesArray.length).toFixed(2);
-    console.log(average)
     return Number.parseFloat(average);
 }
 
@@ -75,10 +74,46 @@ function orderByYear(moviesArray) {
 }
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
-function orderAlphabetically(moviesArray) {}
+function orderAlphabetically(moviesArray) {
+    let newArr = moviesArray.map(movie => {
+        return movie.title;
+     });
+     newArr.sort((antes, despues) => {
+            if(despues < antes) return  1;
+            if(despues > antes) return -1;
+            return 0;
+    });
+    return newArr.slice(0,20);
+}
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes(moviesArray) {}
+function turnHoursToMinutes(moviesArray) {
+    let minutosActuales;
+    let regex= /(\d+)/g;
+    let horas, minutos =0;
+
+    let newArr = moviesArray.map(movie => {
+        if(movie.duration){
+            minutosActuales = 0;
+            let arr= movie.duration.split(" ")
+            horas = arr[0].match(regex);
+            minutosActuales += parseInt(horas[0] * 60);
+            
+            if(arr.length>=2){
+                minutos = arr[1].match(regex)
+                minutosActuales += parseInt(minutos[0]);
+            }
+
+            console.log("Horas: "+horas[0]+" Minutos: "+minutos[0]+" Total: "+minutosActuales)
+            
+            return {...movie, duration: minutosActuales}
+        }
+
+        return movie;
+    })
+    
+    return newArr;
+}
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
 function bestYearAvg(moviesArray) {}
