@@ -104,16 +104,46 @@ function turnHoursToMinutes(moviesArray) {
                 minutosActuales += parseInt(minutos[0]);
             }
 
-            console.log("Horas: "+horas[0]+" Minutos: "+minutos[0]+" Total: "+minutosActuales)
             
             return {...movie, duration: minutosActuales}
         }
 
         return movie;
     })
-    
+
     return newArr;
 }
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
-function bestYearAvg(moviesArray) {}
+function bestYearAvg(moviesArray) {
+    if(moviesArray.length == 0) return null;
+    let year = 0;
+    let newArr = [];
+    for(let i = 0; i<moviesArray.length; i++){
+        year = moviesArray[i].year;
+        cont = 0;
+        score = 0;
+        if(!newArr.includes(year)){
+            moviesArray.filter((movie)=> {
+                if(movie.year == year){
+                    score +=movie.score;
+                    cont++
+                }
+            });
+
+            newArr.push({'year': year, 'avg': Number.parseFloat((score/cont).toFixed(2))});
+        }
+    }
+    
+    newArr.sort((antes, despues) => {
+        if(despues.avg > antes.avg) return  1;
+        if(despues.avg < antes.avg) return -1;
+        if(despues.avg == antes.avg){
+            if(despues.year < antes.year) return 1;
+            if(despues.year > antes.year) return -1;
+            return 0;
+        }
+    });
+    
+    return `The best year was ${newArr[0].year} with an average score of ${newArr[0].avg}`
+}
